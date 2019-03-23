@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+
   <div class="keys">
     <div data-key="65" class="key">
       <kbd>A</kbd>
@@ -44,6 +46,7 @@
       <span class="sound">tink</span>
     </div>
   </div>
+
   <audio data-key="65" src="sounds/clap.wav"></audio>
   <audio data-key="83" src="sounds/hihat.wav"></audio>
   <audio data-key="68" src="sounds/kick.wav"></audio>
@@ -53,49 +56,11 @@
   <audio data-key="74" src="sounds/snare.wav"></audio>
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
+
 <script>
 
-// 幫 window 新增 keydown 的監聽事件
-window.addEventListener('keydown', (e) => {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
-    const key = document.querySelector(`div[data-key="${e.keyCode}"]`)
-    if(!audio) return;
-    console.log(audio)
-
-    // 返回 0 秒, 連續點按才跟得上
-    audio.currentTime = 0
-    audio.play()
-    key.classList.add('playing')
-});
-
-
-/** 使用 console.log(e) 看看監聽 key 的 transitionend 事件後發生什麼事情，
- *  我在 console 可以發現 propertyName 屬性中的 transform 就是我們要找的。
- *  ps. arrow function 不適合用在 addEventListener ，因為無所透過 call bind apply 改變 thisgit 
- */
-
-    const removeTransition = (e) => {
-        // if(e.propertyName !== 'transform') return;
-        console.log('this: ', this)
-    }
-
-    // function removeTransition(e) {
-    //     if(e.propertyName !== 'transform') return;
-    //     console.log(e.propertyName)
-    //     // this.classList.remove('playing')
-    //     console.log('this: ', this)
-    //     // console.log(this.classList.remove('playing'))
-    // }
-
-/**     // 返回 NodeList(9)
- * 使用 document.querySelectorAll() 方法與  Node.childNodes 屬性會取得 NodeList 物件(節點的集合)，NodeList 不是陣列，但可以使用 forEach() 迭代，但老舊瀏覽器不支援。
- * transitionend 事件會在 CSS transition 結束後觸發。
- */
-keys = document.querySelectorAll('.key')
-keys.forEach(key => {
-    key.addEventListener('transitionend', removeTransition.call(key))
-})
-
 </script>
+
+
 </body>
 </html>
