@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>JS Drum Kit</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+# Drum Kit
+
+既然決心要走前端，而且覺得 JavaScript 真的是很好，所以就利用 JS30 熟悉一下，順便複習吧！
+這個專案一開始就附上了 html, css，所以就專注在 js 的部分吧。
+
+```html
   <div class="keys">
     <div data-key="65" class="key">
       <kbd>A</kbd>
@@ -44,6 +42,7 @@
       <span class="sound">tink</span>
     </div>
   </div>
+
   <audio data-key="65" src="sounds/clap.wav"></audio>
   <audio data-key="83" src="sounds/hihat.wav"></audio>
   <audio data-key="68" src="sounds/kick.wav"></audio>
@@ -53,7 +52,10 @@
   <audio data-key="74" src="sounds/snare.wav"></audio>
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
-<script>
+```
+
+
+
 
     /** 
      * 函式陳述式(function statement): function() {}
@@ -99,7 +101,3 @@
 
     // 幫 window 新增 keydown 的監聽事件
     window.addEventListener('keydown', playSound)
-
-</script>
-</body>
-</html>
