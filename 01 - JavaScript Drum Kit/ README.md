@@ -54,9 +54,37 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 ```
 
+```js
+window.addEventListener('keydown', (e) => {
+    console.log(e)
+    console.log(e.keyCode)
+})
+```
 
+首先我們可以注意到 html 裡面的元素都有 _data-key_ 的屬性，所以透過監聽 window 的 keydown 事件，然後取得 _e.keyCode_。
 
+```js
+const playSound = function(e) {
+    let keyCode = e.keyCode || this.getAttribute('data-key')
+    const key = document.querySelector(`div[data-key="${keyCode}"]`)
+    const audio = document.querySelector(`audio[data-key="${keyCode}"]`)
+    if(!audio) return;
+    audio.currentTime = 0 // 返回 0 秒, 連續點按才跟得上
+    audio.play()
+    key.classList.add('playing')
+}
+```
 
+- 搭配很方便的 ES6 的模板字符串(Template literals)，當你按按鍵時透過 event 取得的 e.keyCode，利用模板字符串套用在 HTML 的 data-key，兩者互相搭配，很方便。
+
+Element.getAttribute(): var attribute = element.getAttribute(attributeName);
+getAttribute 方法是透過屬性的名稱取得屬性的值。
+
+- 利用 _this.getAttribute('data-key')_ 取得滑鼠點擊取得 **data-key** 的值。
+
+- audio.currentTime: 當前時間設定為 0 秒
+
+```js
     /** 
      * 函式陳述式(function statement): function() {}
      * 函式表達式(function expression): const fn = function() {}
@@ -101,3 +129,43 @@
 
     // 幫 window 新增 keydown 的監聽事件
     window.addEventListener('keydown', playSound)
+```
+
+
+## 自己練習一次
+
+用自己的想法寫了一次
+
+透過監聽 click 事件取得的 _this.getAttribute("data-key")_ 是 string
+透過監聽 keydown 事件取得的 _e.keyCode_ 是數字
+
+用 forEach 遍歷 .key audio，符合 keyCode 的才執行。感覺很耗效能。
+
+```js
+
+function playSound(e) {
+  // e.keyCode => number, this.getAttribute("data-key") => string
+    let keyNum = Number(e.keyCode || this.getAttribute("data-key"))
+    let keys = document.querySelectorAll('.key')
+    let audios = document.querySelectorAll('audio')
+    keys.forEach(key => {
+        if(Number(key.getAttribute("data-key")) !== keyNum) return
+            key.classList.add('playing')
+    } )
+    audios.forEach(audio => {
+        if(Number(audio.getAttribute("data-key")) !== keyNum) return
+        audio.currentTime = 0
+        audio.play()
+    })
+}
+
+let keys = document.querySelectorAll('.key')
+keys.forEach(key => {
+    key.addEventListener('transitionend', function(e) {
+        this.classList.remove('playing')
+    })
+    key.addEventListener('click', playSound)
+})
+
+window.addEventListener('keydown', playSound)
+```

@@ -59,6 +59,34 @@
 
 <script>
 
+function playSound(e) {
+  // e.keyCode => number, this.getAttribute("data-key") => string
+  let keyNum = Number(e.keyCode || this.getAttribute("data-key"))
+  let keys = document.querySelectorAll('.key')
+  let audios = document.querySelectorAll('audio')
+  keys.forEach(key => {
+      if(Number(key.getAttribute("data-key")) !== keyNum) return
+        key.classList.add('playing')
+  } )
+  audios.forEach(audio => {
+    if(Number(audio.getAttribute("data-key")) !== keyNum) return
+      audio.currentTime = 0
+      audio.play()
+  })
+}
+
+let keys = document.querySelectorAll('.key')
+keys.forEach(key => {
+  key.addEventListener('transitionend', function(e) {
+    this.classList.remove('playing')
+  })
+  key.addEventListener('click', playSound)
+})
+
+window.addEventListener('keydown', playSound)
+
+
+
 </script>
 
 
